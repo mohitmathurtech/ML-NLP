@@ -1,0 +1,110 @@
+## Table of Contents
+- [1. What is Linear Regression](#1-what-is-linear-regression)
+- [2. What Problems Can It Solve](#2-what-problems-can-it-solve)
+- [3. What is the General Expression](#3-what-is-the-general-expression)
+- [4. How to Calculate](#4-how-to-calculate)
+- [5. How to Solve Overfitting and Underfitting](#5-how-to-solve-overfitting-and-underfitting)
+  - [5.1 What is L2 Regularization (Ridge Regression)](#51-what-is-l2-regularization-ridge-regression)
+  - [5.2 When to Use L2 Regularization](#52-when-to-use-l2-regularization)
+  - [5.3 What is L1 Regularization (Lasso Regression)](#53-what-is-l1-regularization-lasso-regression)
+  - [5.4 When to Use L1 Regularization](#54-when-to-use-l1-regularization)
+  - [5.5 What is ElasticNet Regression](#55-what-is-elasticnet-regression)
+  - [5.6 Application Scenarios for ElasticNet Regression](#56-application-scenarios-for-elasticnet-regression)
+- [6. Does Linear Regression Require the Dependent Variable to Follow a Normal Distribution?](#6-does-linear-regression-require-the-dependent-variable-to-follow-a-normal-distribution)
+- [7. Code Implementation](#7-code-implementation)
+
+## 1. What is Linear Regression
+
+- Linear: The relationship between two variables is a first-degree function—the graph is a straight line, which is called linear.
+- Nonlinear: The relationship between two variables is not a first-degree function—the graph is not a straight line, which is called nonlinear.
+- Regression: When measuring things, due to objective limitations, we get measured values instead of the true values. To obtain the true value, we measure infinitely many times and finally obtain the true value through a regression calculation.
+
+## 2. What Problems Can It Solve
+
+It processes a large amount of observational data to obtain a mathematical expression that fits the internal patterns of things. In other words, it finds the patterns between data so that we can predict results or simulate outcomes.
+
+## 3. What is the General Expression
+
+![Equation](https://latex.codecogs.com/gif.latex?Y=wx+b)
+
+w is called the coefficient of x, and b is called the bias term.
+
+## 4. How to Calculate
+
+### 4.1 Loss Function--MSE
+
+![Equation](https://latex.codecogs.com/gif.latex?J=\frac{1}{2m}\sum^{i=1}_{m}(y^{'}-y)^2)
+
+Use **gradient descent** to find the minimum point, i.e., the point of minimum error, and finally solve for w and b.
+
+## 5. How to Solve Overfitting and Underfitting
+
+Add a regularization term to the loss function, namely **L1 regularization, L2 regularization, or ElasticNet**. The advantages of adding this term are:
+
+- Controls the magnitude of parameters, preventing the model from "running wild".
+- Restricts the parameter search space.
+- Solves issues of underfitting and overfitting.
+
+### 5.1 What is L2 Regularization (Ridge Regression)
+
+Equation:
+
+![Equation](https://latex.codecogs.com/gif.latex?J=J_0+\lambda\sum_{w}w^2)
+
+![Equation](https://latex.codecogs.com/gif.latex?J_0) represents the above loss function. On the basis of the loss function, add the sum of the squares of the w parameters multiplied by ![lambda](https://latex.codecogs.com/gif.latex?\lambda).
+
+![Equation](https://latex.codecogs.com/gif.latex?L=\lambda({w_1}^2+{w_2}^2))
+
+Recall the unit circle equation learned earlier:
+
+![Equation](https://latex.codecogs.com/gif.latex?x^2+y^2=1)
+
+This is the same as the L2 regularization term. Our task now becomes finding the solution that minimizes J under the constraint L. The solution process for J0 can be illustrated with contour lines. The L2 regularization function L can also be drawn on the w1w2 2D plane.
+
+![image](https://wx4.sinaimg.cn/large/00630Defgy1g4ns9qha1nj308u089aav.jpg)
+
+L is represented as the black circle in the figure. As gradient descent approaches, the first intersection with the circle is unlikely to occur on the axes. This means L2 regularization does not tend to produce sparse solutions.
+
+### 5.2 When to Use L2 Regularization
+
+Whenever the data is linearly correlated and LinearRegression fits poorly, **regularization is needed**. Consider ridge regression (L2) when the input features are high-dimensional and sparse linear relationships exist.
+
+### 5.3 What is L1 Regularization (Lasso Regression)
+
+The difference between L1 and L2 is in the penalty term:
+
+![Equation](https://latex.codecogs.com/gif.latex?J=J_0+\lambda(|w_1|+|w_2|))
+
+The solution process for J0 can also be drawn with contour lines. The L1 regularization function can also be plotted on the w1w2 2D plane, as shown below:
+
+![image](https://ws2.sinaimg.cn/large/00630Defgy1g4nse7rf9xj308u089gme.jpg)
+
+The penalty term appears as a black diamond in the figure. As gradient descent approaches, the first intersection with the diamond is likely to occur on the axes. **This means L1 regularization tends to produce sparse solutions.**
+
+### 5.4 When to Use L1 Regularization
+
+**L1 regularization (Lasso regression) can shrink some feature coefficients and even set some small coefficients directly to 0**, thus enhancing the model's generalization ability. For high-dimensional feature data, especially for those with many irrelevant features, L1 regularization is recommended.
+
+### 5.5 What is ElasticNet Regression
+
+**ElasticNet combines L1 and L2 regularization terms**. The formula is as follows:
+
+![Equation](https://latex.codecogs.com/gif.latex?min(\frac{1}{2m}[\sum_{i=1}^{m}({y_i}^{'}-y_i)^2+\lambda\sum_{j=1}^{n}\theta_j^2]+\lambda\sum_{j=1}^{n}|\theta|))
+
+### 5.6 Application Scenarios for ElasticNet Regression
+
+When Lasso regression is too aggressive (too many features are zeroed out) and ridge regression is not regularizing enough (regression coefficients decay too slowly), consider ElasticNet to combine the two and achieve a better compromise.
+
+## 6. Does Linear Regression Require the Dependent Variable to Follow a Normal Distribution?
+
+We assume that the noise in linear regression follows a normal distribution with mean 0. When the noise follows N(0, delta^2), the dependent variable follows N(ax(i)+b, delta^2), where the prediction function is y=ax(i)+b.
+
+Before fitting data with a linear regression model, the data should conform or approximately conform to a normal distribution; otherwise, the resulting fit will be incorrect.
+
+## 7. [Code Implementation](https://github.com/NLP-LOVE/ML-NLP/tree/master/Machine%20Learning/Liner%20Regression/demo)
+
+------
+
+> Author: [@mantchs](https://github.com/mantchs)
+>
+> Everyone is welcome to join the discussion and help improve this project!
